@@ -1,0 +1,279 @@
+zh-CN:
+  update:       "修改"
+  create:       "创建"
+  destroy:      "删除"
+  activerecord:
+    models:
+      user: "用户"
+      category: "分类"
+      business: "商家"
+      brand: "品牌"
+      institution: "品牌商家"
+      product_category: "产品分类"
+      productcategory: "产品分类"
+      product: "产品"
+      member_category: "成员分类"
+      membercategory: "成员分类"
+      member: "成员"
+      role: "角色"
+      permission: "权限"
+      user_job: '用户职业'
+      userjob: '用户职业'
+      keyword: '关键词'
+      complaint: '投诉'
+      communication: '沟通交流'
+      support: '支持'
+      comment: '评论'
+      thumb: '点赞'
+      notice: '站内消息'
+      alert: '站外消息'
+      provider_auth: '平台账号'
+      position: '推荐位'
+    attributes:
+      user:
+        name: "用户名"
+        email: "邮箱"
+        phone: "电话"
+        state: "用户类别"
+        current_password: "当前密码"
+        password: "密码"
+        password_confirmation: "确认密码"
+        remember_me: "自动登录"
+        icon: "角色"
+        business: "商家"
+        brand: "品牌"
+        institution: "机构单位"
+        user_job: "职业"
+        real_name: "真实姓名"
+        idnum: "身份证号"
+        score: "得分"
+        gender: "性别"
+        birthday: "生日"
+        active: "激活状态"
+        roles: '角色'
+        province: "地区"
+        address: "地址"
+      category:
+        name: "名称"
+        parent_id: "父节点"
+      business:
+        name: "名称"
+        qualification: "资质"
+        description: "描述"
+        icon: "图标"
+        score: "得分"
+        active: "激活状态"
+        province: "地区"
+        address: "地址"
+        category: "分类"
+        latitude: "纬度位置"
+        longitude: "经度位置"
+      brand:
+        name: "名称"
+        description: "描述"
+        icon: "图标"
+        score: "得分"
+        active: "激活状态"
+        category: "分类"
+        latitude: "纬度位置"
+        longitude: "经度位置"
+      institution:
+        name: "名称"
+        state: "类型"
+        description: "描述"
+        icon: "图标"
+        score: "得分"
+        active: "激活状态"
+        province: "地区"
+        address: "地址"
+        category: "分类"
+        parent_id: "父节点"
+        latitude: "纬度位置"
+        longitude: "经度位置"
+      product_category:
+        name: "名称"
+        brand: "品牌"
+        active: "激活状态"
+      product:
+        name: "名称"
+        description: "描述"
+        icon: "图标"
+        score: "得分"
+        active: "激活状态"
+        brand: "品牌"
+        product_category: "产品分类"
+      member_category:
+        name: "名称"
+        business: "商家"
+        active: "激活状态"
+      member:
+        name: "名称"
+        description: "描述"
+        icon: "图标"
+        score: "得分"
+        active: "激活状态"
+        business: "商家"
+        member_category: "成员分类"
+      role:
+        name: "名称"
+        permissions: "权限"
+      user_job:
+        name: "名称"
+        active: "激活状态"
+      keyword:
+        name: "名称"
+        state: "单据类别"
+        score: "得分"
+        active: "激活状态"
+        note: "备注"
+        category: "所属分类"
+        institutions: "关联机构单位"
+      complaint:
+        user: "发起者"
+        uuid: "唯一编码"
+        title: "标题"
+        brandable_type: "目标类别"
+        brandable_id: "商家/品牌"
+        productable_id: "成员/产品"
+        keywords: "关键词"
+        state: "步骤"
+        active: "激活状态"
+        requirement: "要求结果"
+        content: "内容"
+        private: "隐私"
+        receipt_images: "图片"
+      communication:
+        receipt: "目标"
+        ownable_type: "发表者类别"
+        ownable_id: "发表者"
+        ownable: "发表者"
+        content: "内容"
+        created_at: "时间"
+        state: "步骤"
+        active: "激活状态"
+      support:
+        receipt: "目标"
+        user: "用户"
+        created_at: "时间"
+        active: "激活状态"
+      comment:
+        receipt: "目标"
+        user: "用户"
+        parent_id: "被回复者"
+        created_at: "时间"
+        content: "内容"
+        active: "激活状态"
+        thumbs: "点赞"
+      thumb:
+        comment: "目标"
+        user: "用户"
+        created_at: "时间"
+        active: "激活状态"
+      notice:
+        sendable_type: "发送者类别"
+        sendable: "发送者"
+        sendable_id: "发送者"
+        receiveable_type: "接收者类别"
+        receiveable: "接收者"
+        receiveable_id: "接收者"
+        relateable_type: "相关数据类别"
+        relateable: "相关数据"
+        relateable_id: "相关数据"
+        content: "内容"
+        created_at: "时间"
+        active: "状态"
+      alert:
+        sendable_type: "发送者类别"
+        sendable: "发送者"
+        sendable_id: "发送者"
+        receiveable_type: "接收者类别"
+        receiveable: "接收者"
+        receiveable_id: "接收者"
+        relateable_type: "相关数据类别"
+        relateable: "相关数据"
+        relateable_id: "相关数据"
+        target_type: "消息类别"
+        target_name: "消息地址"
+        content: "内容"
+        created_at: "时间"
+        active: "状态"
+      provider_auth:
+        ownable_type: "拥有者类别"
+        ownable: "拥有者"
+        ownable_id: "拥有者"
+        identity_type: "账号类别"
+        identifier: "账号"
+        credential: "密钥"
+        name: "名称"
+        icon: "头像"
+        note: "备注"
+        created_at: "时间"
+        active: "状态"
+      position:
+        content_uuid: "内容ID"
+        name: "名称"
+        order: "序列"
+        note: "备注"
+        created_at: "时间"
+        active: "状态"
+    errors:
+      template:
+        header:
+          one: "有 1 个错误发生导致「%{model}」无法被保存。"
+          other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
+        body: "如下字段出现错误："
+      messages:
+        inclusion: "不包含于列表中"
+        exclusion: "是保留关键字"
+        invalid: "是无效的"
+        confirmation: "与确认值不匹配"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能为空字符"
+        too_long: "过长（最长为 %{count} 个字符）"
+        too_short: "过短（最短为 %{count} 个字符）"
+        wrong_length: "长度非法（必须为 %{count} 个字符）"
+        taken: "已经被使用"
+        not_a_number: "不是数字"
+        not_an_integer: "必须是整数"
+        greater_than: "必须大于 %{count}"
+        greater_than_or_equal_to: "必须大于或等于 %{count}"
+        equal_to: "必须等于 %{count}"
+        less_than: "必须小于 %{count}"
+        less_than_or_equal_to: "必须小于或等于 %{count}"
+        odd: "必须为单数"
+        even: "必须为双数"
+        record_invalid: "校验失败: %{errors}"
+        required: "不能为空"
+  views:
+    pagination:
+      first: "首页"
+      last: "尾页"
+      previous: "上一页"
+      next: "下一页"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "无 %{entry_name} "
+          one: "显示 <b>1</b> 个 %{entry_name}"
+          other: "显示 <b>%{count}</b> 个 %{entry_name}"
+      more_pages:
+        display_entries: "显示 %{entry_name} <b>%{first} - %{last}</b>  共<b>%{total}</b> "
+  permission:
+    actions:
+      create: "增加"
+      destroy: "删除"
+      update: "修改"
+      read: "查看"
+      update_psd: "改密码"
+      review_pass: "激活"
+  ckeditor:
+    page_title: '编辑器 文件管理'
+    confirm_delete: '删除文件?'
+    buttons:
+      cancel: '关闭'
+      upload: '上传'
+      delete: '删除'
+      next: '下一个'

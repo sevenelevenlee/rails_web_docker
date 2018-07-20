@@ -1,0 +1,21 @@
+default: &default
+  adapter: mysql2
+  #encoding: utf8
+  reconnect: false
+  database: sywh_back
+  pool: 10
+  username: root
+  password: 123456
+  host: db_com
+  encoding: utf8mb4
+  collation: utf8mb4_polish_ci
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+  pool: 25

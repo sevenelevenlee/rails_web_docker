@@ -1,0 +1,123 @@
+安装 es (需要安装java)：
+mac安装:
+
+brew install elasticsearch
+安装中文plugins：
+
+* https://github.com/medcl/elasticsearch-analysis-ik
+brew services restart elasticsearch
+Ubuntu安装:
+https://javablog.net/page/146/ubuntu-under-the-elasticsearch-522-installation-configuration-boot-up-chinese-word-segmentation-ik.html
+
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.4.zip
+$ unzip elasticsearch-6.2.4.zip
+
+$ vim elasticsearch-6.2.4/config/elasticsearch.yml
+$ network.host: 0.0.0.0
+
+$ sudo sysctl -w vm.max_map_count=262144
+$ elasticsearch-6.2.4//bin/elasticsearch -d
+中文ik：
+
+$ elasticsearch-6.2.4/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.4/elasticsearch-analysis-ik-6.2.4.zip
+$ elasticsearch-6.2.4//bin/elasticsearch -d
+优化 Mysql emoji图标存储 ：
+
+
+
+https://mensfeld.pl/2016/06/ruby-on-rails-mysql2error-incorrect-string-value-and-specified-key-was-too-long/
+修改 my.cnf：
+https://blog.csdn.net/fdipzone/article/details/52705507
+/usr/local/etc/my.cnf
+添加：
+bash
+$ innodb_large_prefix=on
+$ innodb_file_format=barracuda
+$ innodb_file_per_table=true
+
+
+
+
+图片验证吗处理(缓存服务)：
+安装 memcached
+    Homebrew with
+    bash
+    $ brew install memcached
+    $ brew services start memcached
+
+    On Ubuntu you can install it by running:
+    bash
+    $ apt-get install memcached
+    $ sudo systemctl restart memcached
+
+
+
+https://ruby-china.github.io/rails-guides/caching_with_rails.html#%E9%85%8D%E7%BD%AE
+https://github.com/petergoldstein/dalli
+
+
+视频裁剪工具ffmpeg：
+安装 ffmpeg
+    Mac Homebrew with
+    bash
+    $ brew install ffmpeg
+
+    Ubuntu:
+    bash
+    $ apt-get install ffmpeg
+
+使用gem 图表工具chartkick,图表数据处理工具groupdate：
+使用 groupdate 需配置mysql：（需输入mysql密码）
+    bash
+    $ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql -p
+
+
+$ git clone git@192.168.1.116:root/sywh_back.git
+$ cd sywh_back
+$ git pull origin develop:develop
+$ git checkout develop
+$ bundle install
+$ cp config/database.yml.example config/database.yml
+$ cp config/redis.yml.example config/redis.yml
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
+$ bundle exec sidekiq -C config/sidekiq.yml -e development -d
+$ rails s
+
+生产环境部署
+
+# 配置启动脚本
+$ sudo cp lib/support/sywh_back /etc/init.d/
+$ sudo vim /etc/init.d/sywh_back
+#修改sywh_back目录位置
+
+$ sudo chmod 755 /etc/init.d/sywh_back
+$ sudo chown root:root /etc/init.d/sywh_back
+$ sudo /etc/init.d/sywh_back start
+# 将sywh_back添加到service中
+$ sudo update-rc.d sywh_back defaults
+$ sudo update-rc.d sywh_back enable
+
+
+# 配置nginx
+$ sudo cp lib/support/sywh_back.nginx.confg /etc/nginx/sites-enabled/sywh_back.conf
+$ sudo vim /etc/nginx sites-enabled/sywh_back.conf
+#修改root、sock等路径
+
+docker-compose(试运行，生产需要更该端口等配置)
+
+# 构建
+$ docker-compose build
+# 启动
+$ docker-compose up -d
+
+# 初始数据处理
+$ docker exec -it sywh_back_back_com_1 /bin/bash
+$ rake db:create
+$ rake db:migrate
+$ rake db:seed
+$ exit
+
+# 访问地址
+$ http://localhost:3080/

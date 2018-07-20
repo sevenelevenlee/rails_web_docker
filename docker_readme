@@ -1,0 +1,46 @@
+
+docker run  -e MYSQL_ROOT_PASSWORD=123456 --name app_mysql -d mysql:5.7
+
+docker run --name app_mysql -e MYSQL_ROOT_PASSWORD=123456  -d mysql
+
+154b1594d4261b72e74df18388d413fa4464fb7c465e758ac26f014381b96617
+
+docker build -t sywh_api .
+
+docker run --link app_mysql:mysql -v /Users/guohang/myhome/work/docker_test/var/public/uploads:/app/public/public -v /Users/guohang/myhome/work/docker_test/var/app:/app/log --name app_sywh_api -p 127.0.0.1:3030:3030 -d sywh_api
+
+docker run --link app_mysql:app_mysql -v /Users/guohang/myhome/work/docker_test/var/public/uploads:/app/public/public -v /Users/guohang/myhome/work/docker_test/var/app:/app/log --name app_sywh_api -p 127.0.0.1:3030:3030 -d sywh_api
+
+
+docker exec -it sywh_back_back_com_1 /bin/bash
+
+
+docker tag 5534b278efe0 gh12128/sywh_api
+
+docker push  gh12128/sywh_api:base1
+
+
+
+docker inspect a29b2021e45c
+
+sudo docker rm $(docker ps -a -q)
+docker rmi $(docker images -a -q)
+
+运行 docker-compose build 就可以创建相关容
+运行前，先把 config/routes.rb 中的 devise_for :users 注释掉
+build 结束之后，再打开
+创建完之后，就可以数据库相关操作了
+docker-compose run app rake db:create
+docker-compose run app rake db:migrate
+docker-compose run app rake db:seed
+运行 docker-compose up -d
+一开始测试时，可以不带 -d 选项，会显示更多信息
+停止：docker-compose stop ，不带 -d 时，按 Ctrl + C
+可以通过 docker-compose ps 来查看容器运行状态
+
+
+docker push方法:  gh12128/sywh_back_ruby
+docker tag 5db5f8471261 xxx_user/xxx_name:base2
+docker push xxx_user/xxx_name
+
+.

@@ -1,0 +1,128 @@
+
+FROM ruby:2.5.0
+MAINTAINER gh gh@sywh.com
+
+#更新apt-get源 使用163的源
+#RUN echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" > /etc/apt/sources.list
+#RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+#    echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" >/etc/apt/sources.list && \
+#    echo "deb http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib" >>/etc/apt/sources.list && \
+#    echo "deb-src http://mirrors.163.com/debian/ jessie main non-free contrib" >>/etc/apt/sources.list && \
+#    echo "deb-src http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib" >>/etc/apt/sources.list
+
+
+# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+#     echo "deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib" >/etc/apt/sources.list && \
+#     echo "deb http://mirrors.ustc.edu.cn/kali kali-rolling main contrib non-free" >/etc/apt/sources.list && \
+#     echo "deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main contrib non-free" >/etc/apt/sources.list && \
+#     echo "deb http://mirrors.ustc.edu.cn/kali-security kali-current/updates main contrib non-free" >/etc/apt/sources.list && \
+#     echo "deb-src http://mirrors.ustc.edu.cn/kali-security kali-current/updates main contrib non-free" >>/etc/apt/sources.list
+
+
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ jessie main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib" >>/etc/apt/sources.list
+
+
+#    deb http://mirrors.163.com/debian/ jessie main non-free contrib
+#    deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+#    deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+#    deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+#    deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+#    deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+#    deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+#    deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+
+
+
+# 安装必要套件
+# -- build-essential --
+# RUN apt-get update
+# RUN apt-get autoremove libdpkg-perl
+# RUN apt-get install libdpkg-perl
+# RUN unset LD_LIBRARY_PATH
+# RUN unset LD_LIBRARY_PATH
+# RUN ldconfig -v
+# RUN apt-get update
+# RUN apt-get purge dpkg-dev build-essential
+# RUN apt-get install -y build-essential
+
+# RUN apt-get autoclean
+# RUN apt-get clean
+# RUN apt-get autoremove
+# RUN apt-get autoremove libdpkg-perl
+# RUN apt-get --reinstall install libdpkg-perl
+# RUN dpkg --remove -force --force-remove-reinstreq libdpkg-perl
+
+# RUN apt-get remove -y libdpkg-perl
+# RUN apt-get install -y libdpkg-perl
+
+# RUN apt-get install -y dpkg-dev
+# RUN apt-get install -y debhelper
+# RUN apt-get purge dpkg-dev build-essential
+# RUN apt-get update && apt-get install -y dpkg-dev build-essential
+
+# -- ffmpeg --
+# RUN apt-get update
+# RUN apt-get dist-upgrade
+# RUN apt-get install software-properties-common
+# RUN apt-get install python-software-properties
+
+# RUN apt-get install -y python-apt unattended-upgrades python3-gi python3-dbus software-properties-common python-software-properties
+# RUN add-apt-repository ppa:jonathonf/ffmpeg-3
+# RUN add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+
+# RUN apt-get -y install  ffmpeg
+# RUN apt-get -y --force-yes install libavfilter6 libopencv-core2.4 libopencv-imgproc2.4 libavdevice57 libavfilter6 libavfilter-extra6 yasm ffmpeg
+# RUN apt-get install -y yasm libx264-dev libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libxext-dev libxfixes-dev ffmpeg
+
+
+# 安装 postgres
+# RUN apt-get install -y libpq-dev
+# 安装 sqlite3，这个用于test,development
+# RUN apt-get install -y libsqlite3-dev
+
+# 安装 JS runtime，一定要装
+# RUN apt-get install -y nodejs
+
+# 用于图片上传
+# RUN apt-get install -y imagemagick
+# 方便进到容器编辑、查看代码
+# RUN apt-get install -y vim
+
+
+# 安装必要套件
+ RUN apt-get update
+# RUN apt-get install -y build-essential
+ RUN apt-get install -y libssl-dev libpq-dev libxml2-dev libxslt1-dev nodejs git imagemagick libbz2-dev libjpeg-dev libevent-dev libmagickcore-dev libffi-dev libglib2.0-dev zlib1g-dev libyaml-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+# RUN apt-get install -y  ffmpeg
+
+ENV APP_HOME /app
+
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+
+COPY Gemfile $APP_HOME/
+COPY Gemfile.lock $APP_HOME/
+
+
+RUN gem install bundler
+RUN bundle install
+COPY . .
+
+# RUN bundle exec rake db:setup
+
+COPY . $APP_HOME
+
+# RUN bundle exec rake assets:precompile RAILS_ENV=production
+ RUN bundle exec rake RAILS_ENV=$RAILS_ENV assets:precompile
+
+# EXPOSE 8080
+# EXPOSE 3050
+# CMD ["bundle", "exec", "puma", "-C", "config/puma_docker.rb"]

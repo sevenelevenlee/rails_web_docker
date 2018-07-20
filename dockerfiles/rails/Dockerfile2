@@ -1,0 +1,51 @@
+
+FROM ubuntu:16.04
+MAINTAINER gh gh@sywh.com
+
+# 安装必要套件
+RUN apt-get update -qq
+RUN apt-get install -y build-essential
+RUN apt-get install -y ffmpeg
+#RUN apt-get install -y wget autoconf automake libtool libssl-dev libpq-dev libxml2-dev libxslt1-dev nodejs git imagemagick libbz2-dev libjpeg-dev libevent-dev libmagickcore-dev libffi-dev libglib2.0-dev zlib1g-dev libyaml-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+
+# 安装ruby
+# Install packages for building ruby
+RUN apt-get update
+RUN apt-get install -y --force-yes build-essential curl git nodejs imagemagick
+RUN apt-get install -y --force-yes zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev
+RUN apt-get clean
+
+# Install rbenv and ruby-build
+ENV HOME /home/app
+ENV PATH $HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin:$PATH
+# clone rbenv
+RUN git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+# clone ruby-build
+RUN git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+RUN rbenv install 2.5.1
+RUN rbenv global 2.5.1
+
+ENV APP_HOME /app
+
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+
+COPY Gemfile $APP_HOME/
+COPY Gemfile.lock $APP_HOME/
+
+RUN gem install bundler
+RUN bundle install
+COPY . .
+
+# RUN bundle exec rake db:setup
+
+COPY . $APP_HOME
+
+# RUN bundle exec rake assets:precompile RAILS_ENV=production
+ RUN bundle exec rake RAILS_ENV=$RAILS_ENV assets:precompile
+
+# EXPOSE 8080
+# EXPOSE 3050
+# CMD ["bundle", "exec", "puma", "-C", "config/puma_docker.rb"]

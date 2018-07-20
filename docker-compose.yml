@@ -1,0 +1,108 @@
+
+version: '2'
+services:
+  back_com:
+    build: .
+    # ports:
+     # - "9200:9200"
+     # - "3050:3050"
+    # links:
+    #  - db_com
+    #  - elasticsearch_com
+    environment:
+     # - ELASTICSEARCH_HOST=elasticsearch_com
+     - ELASTICSEARCH_URL=http://elasticsearch_com:9200
+     - REDIS_URL=redis://redis_com:6379
+     - MEMCACHE_SERVERS=memcache_com
+    depends_on:
+     - 'db_com'
+     - 'elasticsearch_com'
+     - 'redis_com'
+     - 'memcache_com'
+    command: bundle exec puma -C config/puma_docker.rb -e $RAILS_ENV
+    env_file:
+     - .env
+    volumes:
+      - /app
+  
+  back_com1:
+    build: .
+    # ports:
+     # - "9200:9200"
+     # - "3050:3050"
+    # links:
+    #  - db_com
+    #  - elasticsearch_com
+    environment:
+     # - ELASTICSEARCH_HOST=elasticsearch_com
+     - ELASTICSEARCH_URL=http://elasticsearch_com:9200
+     - REDIS_URL=redis://redis_com:6379
+     - MEMCACHE_SERVERS=memcache_com
+    depends_on:
+     - 'db_com'
+     - 'elasticsearch_com'
+     - 'redis_com'
+     - 'memcache_com'
+    command: bundle exec puma -C config/puma_docker.rb -e $RAILS_ENV
+    env_file:
+     - .env
+    volumes:
+      - /app
+
+  db_com:
+    image: mysql:5.7
+    # volumes:
+    #   - ./mysql:/var/lib/mysql
+    # ports:
+    #   - "127.0.0.1:3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    restart: always
+  elasticsearch_com:
+    # image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    build: ./dockerfiles/elasticsearch/
+    # ports:
+    #   - "9200:9200"
+    environment:
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "http.host=0.0.0.0"
+      - "transport.host=localhost"
+    # ulimits:
+    #   memlock:
+    #     soft: -1
+    #     hard: -1
+    #   nofile:
+    #     soft: 65536
+    #     hard: 65536
+    #   mem_limit: 1
+    # cap_add:
+    #   - IPC_LOCK
+    # volumes:
+    #   - /usr/share/elasticsearch/data
+  redis_com:
+    image: "redis:4.0.9"
+    restart: always
+  memcache_com:
+    image: memcached:alpine
+    restart: always
+  sidekiq_com:
+    build: .
+    depends_on:
+      - 'db_com'
+      - 'redis_com'
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+  nginx_com:
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx/Dockerfile-nginx
+    links:
+      - back_com
+      - back_com1
+    ports:
+      - "3080:3080"
+    volumes_from:
+      - back_com
+      - back_com1
