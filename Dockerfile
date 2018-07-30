@@ -18,7 +18,7 @@ COPY Gemfile.lock $APP_HOME/
 
 RUN gem install bundler
 RUN bundle install
-COPY . .
+#COPY . .
 
 # RUN bundle exec rake db:setup
 

@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-sm-2">
+    <%= render 'chats/navside' %>
+  </div>
+
+  <div class="col-sm-7">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-comments fa-fw"></i> Chat
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu slidedown">
+
+            <% if current_user.id==@chat.admin_id %>
+                <li>
+                  <%= link_to destroyall_messages_path(chat_room: @chat.id), method: :delete do %>
+                      <i class="fa fa-info-circle fa-fw"></i> 清空历史记录
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to chat_path(@chat), method: :delete do %>
+                      <i class="fa fa-times fa-fw"></i> 删除聊天
+                  <% end %>
+                </li>
+            <% else %>
+                <li>
+                  <%= link_to delete_user_chat_path(user_id: current_user.id, id: @chat.id), method: :delete do %>
+                      <i class="fa fa-times"></i> 退出聊天
+                  <% end %>
+                </li>
+            <% end %>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <!--Widget body-->
+        <div id="demo-chat-body" class="collapse in">
+          <div class="nano has-scrollbar" style="height:375px">
+            <div class="nano-content pad-all" tabindex="0" style="right: -17px;">
+              <ul class="list-unstyled media-block msg_list">
+                <%= render partial: 'message_row', collection: @messages, as: :message %>
+              </ul>
+            </div>
+            <div class="nano-pane">
+              <div class="nano-slider" style="height: 141px; transform: translate(0px, 0px);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <%= form_for @new_message, remote: true do |f| %>
+            <div class="input-group">
+              <%= f.text_field :body, class: "form-control input-sm msg_body", placeholder: "在这里书写你的信息..." %>
+              <span class="input-group-btn"> <%= f.submit "发送", class: "btn btn-warning btn-sm" %> </span>
+              <%= hidden_field_tag :chat_room, @chat.id %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <%= render 'chat_info' %>
+  </div>
+</div>
+<%= javascript_include_tag "#{FAYE_HOST}/faye.js" %>
+<script type="text/javascript">
+    var $cont = $('.nano-content');
+    $cont[0].scrollTop = $cont[0].scrollHeight;
+
+    var client = new Faye.Client("<%= FAYE_HOST %>/faye");
+    client.subscribe("/chats/chat<%= @chat.id %>-<%= @chat.uuid %>",function(data){
+      $('.msg_body').val("")
+      var message_id = "message_"+ data['message_id'];
+      $('.msg_list').append("<li class='mar-btm "+ message_id +"'></li>");
+      $('.'+message_id).append("<%= j render(:partial => 'message_row_append') %>");
+      if(data['user_id'] == "<%= current_user.uuid %>"){
+        $('.'+message_id+' .media_div').attr("class","media_div media-right");
+        $('.'+message_id+' .media-body').attr("class","media-body pad-hor speech-right");
+        $('.'+message_id+' .append_user_name').prepend('我');
+      }else{
+        $('.'+message_id+' .media_div').attr("class","media_div media-left");
+        $('.'+message_id+' .append_user_name').prepend(data["user_name"]);
+      }
+      $('.'+message_id+' .append_speech_time').append(data["speech_time"]);
+      $('.'+message_id+' .append_body').append(data["body"]);
+    })
+</script>

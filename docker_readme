@@ -43,4 +43,12 @@ docker push方法:  gh12128/sywh_back_ruby
 docker tag 5db5f8471261 xxx_user/xxx_name:base2
 docker push xxx_user/xxx_name
 
+https://docs.docker.com/compose/rails/#stop-the-application
+
+
+
+docker-compose 的volumes有缓存，代码更新后,需要注释下面内容build后，再解注释后build。（更新缓存）
+volumes:
+  - /app
+
 .

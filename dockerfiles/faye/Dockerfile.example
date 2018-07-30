@@ -1,0 +1,17 @@
+
+FROM ruby:2.5.0
+MAINTAINER gh gh@sywh.com
+
+RUN apk add --no-cache \
+    build-base \
+    ruby-dev
+
+RUN gem install --no-ri --no-rdoc \
+    daemons \
+    eventmachine \
+    faye \
+    rack \
+    thin
+
+RUN apk del build-base
+RUN rm -rf /tmp/* /var/lib/cache/apk/*

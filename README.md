@@ -1,7 +1,7 @@
 docker新新新新手
 记录自己docker研究：
 使用docker-compose
-部署nginx mysql redis sidekiq memcache elasticsearch 以及两个puma负载 等7个容器
+部署nginx mysql redis sidekiq memcache elasticsearch faye(使用thin) 以及两个puma负载 等7个容器
 
 
 有关rails具体项目内容文件   略
@@ -14,7 +14,7 @@ docker新新新新手
  config/sidekiq.yml
  config/redis.yml
  config/initializers/rucaptcha.rb
-等
+等(还有faye相关的)
 4 记录常用docker命令文件 docker_readme
 
 问题：

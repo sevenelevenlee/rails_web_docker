@@ -19,12 +19,13 @@ services:
      - 'elasticsearch_com'
      - 'redis_com'
      - 'memcache_com'
+     - 'back_faye_com'
     command: bundle exec puma -C config/puma_docker.rb -e $RAILS_ENV
     env_file:
      - .env
     volumes:
       - /app
-  
+
   back_com1:
     build: .
     # ports:
@@ -48,6 +49,14 @@ services:
      - .env
     volumes:
       - /app
+
+  back_faye_com:
+    build: ./dockerfiles/faye/
+    image: setanta/faye:1.2.4-alpine
+    ports:
+     - "9292:9292"
+    # command: rackup faye.ru -E production -s thin
+    command: rackup faye.ru -s thin -p 9292 -E production
 
   db_com:
     image: mysql:5.7
@@ -101,8 +110,11 @@ services:
     links:
       - back_com
       - back_com1
+      - back_faye_com
     ports:
       - "3080:3080"
+      # - "9292:9292"
     volumes_from:
       - back_com
       - back_com1
+      - back_faye_com

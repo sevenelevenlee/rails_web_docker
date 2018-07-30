@@ -137,3 +137,6 @@ gem 'faraday'
 gem "chartkick"
 # The simplest way to group temporal data
 gem 'groupdate'
+# Simple pub/sub messaging for the web
+gem "faye"
+gem "thin"
